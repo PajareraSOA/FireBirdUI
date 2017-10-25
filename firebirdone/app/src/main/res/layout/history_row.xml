@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorWhite40"
+    android:paddingLeft="@dimen/padding_item_history"
+    android:paddingRight="@dimen/padding_item_history"
+    android:paddingBottom="@dimen/padding_item_history"
+    android:paddingTop="@dimen/padding_item_history">
+
+    <TextView
+        android:id="@+id/txtHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23/10/2017 15:30:32"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorWhite"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:text="Temperatura: "
+        android:textColor="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:layout_below="@+id/txtHeader"
+        android:layout_marginTop="@dimen/space_between_text_history"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_temperature_value"
+        android:textColor="@color/colorWhite"
+        android:layout_alignTop="@id/text"
+        android:layout_toEndOf="@+id/text" />
+
+
+
+</RelativeLayout>
