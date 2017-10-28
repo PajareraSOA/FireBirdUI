@@ -103,7 +103,7 @@ public class InfoActivity extends AppCompatActivity {
                     tab = new HistoryFragment();
                     return tab;
                 case 2:
-                    tab = new NotificationsFragment();
+                    tab = new GesturesFragment();
                     return tab;
                 default:
                     tab = new InfoFragment();
@@ -125,7 +125,7 @@ public class InfoActivity extends AppCompatActivity {
                 case 1:
                     return "HISTORIAL";
                 case 2:
-                    return "NOTIFICACIONES";
+                    return "GESTOS";
             }
             return null;
         }

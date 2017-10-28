@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by cdsac on 23/10/2017.
  */
@@ -14,10 +16,10 @@ import android.widget.TextView;
 public class HistoryRowAdapter  extends BaseAdapter {
 
     Context context;
-    String[] data;
+    ArrayList<HistoryRowObject> data;
     private static LayoutInflater inflater = null;
 
-    public HistoryRowAdapter(Context context, String[] data) {
+    public HistoryRowAdapter(Context context, ArrayList<HistoryRowObject> data) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
@@ -28,13 +30,13 @@ public class HistoryRowAdapter  extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return data.length;
+        return data.size();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return data[position];
+        return data.get(position);
     }
 
     @Override
@@ -49,8 +51,16 @@ public class HistoryRowAdapter  extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.history_row, null);
-        TextView text = (TextView) vi.findViewById(R.id.txt_temperature_value);
-        text.setText(data[position]);
+        ((TextView) vi.findViewById(R.id.txt_time)).setText(data.get(position).getTime());
+        ((TextView) vi.findViewById(R.id.txt_temperature_value)).setText(data.get(position).getTemperature());
+        ((TextView) vi.findViewById(R.id.txt_smoke_value)).setText(data.get(position).getSmoke());
+        ((TextView) vi.findViewById(R.id.txt_flame_value)).setText(data.get(position).getFlame());
+        ((TextView) vi.findViewById(R.id.txt_food_value)).setText(data.get(position).getFood());
+        ((TextView) vi.findViewById(R.id.txt_water_value)).setText(data.get(position).getWater());
         return vi;
+    }
+
+    public void addItem(HistoryRowObject item){
+        data.add(item);
     }
 }

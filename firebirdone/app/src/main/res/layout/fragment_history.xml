@@ -29,6 +29,15 @@
         android:dividerHeight="@dimen/space_between_items"
         android:paddingLeft="@dimen/margin_list_history"
         android:paddingRight="@dimen/margin_list_history"
+        android:layout_marginBottom="@dimen/margin_bottom_history"
         />
+
+    <ImageView
+        android:id="@+id/txtSwipeToHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/help_history_right"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
