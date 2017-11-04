@@ -13,8 +13,31 @@
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/subtitle_height"
-        app:srcCompat="@drawable/title_noti"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/title_noti" />
+
+    <ListView
+        android:id="@+id/gestures_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginBottom="@dimen/margin_bottom_history"
+        android:layout_marginTop="@dimen/initial_margin_top"
+        android:divider="@null"
+        android:dividerHeight="@dimen/space_between_items"
+        android:paddingLeft="@dimen/margin_list_history"
+        android:paddingRight="@dimen/margin_list_history">
+
+    </ListView>
+
+    <ImageView
+        android:id="@+id/txtSwipeToHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/help_history_right" />
 
 </RelativeLayout>
