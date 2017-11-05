@@ -27,9 +27,20 @@ public class GesturesFragment extends Fragment {
 
         ArrayList<GestureRowObject> gesturesRowObject = new ArrayList<>();
 
-        gesturesRowObject.add(new GestureRowObject("Verificación Lumínica", "Mover el dipositivo horizontalmente para comprobar el funcionamiento de la alerta lumínica en la pajarera."));
-        gesturesRowObject.add(new GestureRowObject("Verificación Sonora", "Tapar el detector de proximidad para comprobar el funcionamiento de la alerta lumínica en la pajarera."));
-        gesturesRowObject.add(new GestureRowObject("Verificación de Agua", "Girar el dispositivo para comprobar el funcionamiento de la alerta lumínica en la pajarera."));
+        gesturesRowObject.add(
+                new GestureRowObject(
+                        "Verificación Lumínica",
+                        "Mover levemente el dispositivo de manera horizontal para la izquierda y la derecha para comprobar el funcionamiento de la alerta lumínica.",
+                        R.drawable.accelerometer));
+        gesturesRowObject.add(
+                new GestureRowObject(
+                        "Verificación Sonora",
+                        "Tapar el detector de proximidad para comprobar el funcionamiento de la alerta sonora.",
+                        R.drawable.proximity));
+        gesturesRowObject.add(
+                new GestureRowObject("Verificación de Agua",
+                        "Hacer el efecto látigo con el dispositivo para comprobar el funcionamiento de los sapitos expulsadores de agua.",
+                        R.drawable.giroscope));
 
         listview.setAdapter(
                 new GesturesRowAdapter(this.getContext(),

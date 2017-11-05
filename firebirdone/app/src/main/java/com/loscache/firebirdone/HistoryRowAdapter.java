@@ -51,12 +51,13 @@ public class HistoryRowAdapter  extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.history_row, null);
-        ((TextView) vi.findViewById(R.id.txt_time)).setText(data.get(position).getTime());
-        ((TextView) vi.findViewById(R.id.txt_temperature_value)).setText(data.get(position).getTemperature());
-        ((TextView) vi.findViewById(R.id.txt_smoke_value)).setText(data.get(position).getSmoke());
-        ((TextView) vi.findViewById(R.id.txt_flame_value)).setText(data.get(position).getFlame());
-        ((TextView) vi.findViewById(R.id.txt_food_value)).setText(data.get(position).getFood());
-        ((TextView) vi.findViewById(R.id.txt_water_value)).setText(data.get(position).getWater());
+        HistoryRowObject hrObject = data.get(position);
+        ((TextView) vi.findViewById(R.id.txt_time)).setText(hrObject.getTime());
+        ((TextView) vi.findViewById(R.id.txt_temperature_value)).setText(hrObject.getTemperature());
+        ((TextView) vi.findViewById(R.id.txt_smoke_value)).setText(hrObject.getSmoke());
+        ((TextView) vi.findViewById(R.id.txt_flame_value)).setText(hrObject.getFlame());
+        ((TextView) vi.findViewById(R.id.txt_food_value)).setText(hrObject.getFood());
+        ((TextView) vi.findViewById(R.id.txt_water_value)).setText(hrObject.getWater());
         return vi;
     }
 

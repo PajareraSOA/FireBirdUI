@@ -8,10 +8,12 @@ public class GestureRowObject {
 
     private String title;
     private String description;
+    private int image;
 
-    public GestureRowObject(String title, String description){
+    public GestureRowObject(String title, String description, int image){
         this.title = title;
         this.description = description;
+        this.image = image;
     }
 
     public String getTitle(){
@@ -20,5 +22,9 @@ public class GestureRowObject {
 
     public String getDescription(){
         return description;
+    }
+
+    public int getImage() {
+        return image;
     }
 }

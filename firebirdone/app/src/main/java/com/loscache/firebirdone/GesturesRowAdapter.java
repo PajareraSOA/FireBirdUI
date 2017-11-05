@@ -49,9 +49,10 @@ public class GesturesRowAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.gestures_row, null);
-        ((TextView) vi.findViewById(R.id.txt_title)).setText(data.get(position).getTitle());
-        ((TextView) vi.findViewById(R.id.txt_description)).setText(data.get(position).getDescription());
-        ((ImageView) vi.findViewById(R.id.img_gesture)).setImageResource(R.drawable.accelerometer);
+        GestureRowObject grObject = data.get(position);
+        ((TextView) vi.findViewById(R.id.txt_title)).setText(grObject.getTitle());
+        ((TextView) vi.findViewById(R.id.txt_description)).setText(grObject.getDescription());
+        ((ImageView) vi.findViewById(R.id.img_gesture)).setImageResource(grObject.getImage());
         return vi;
     }
 }

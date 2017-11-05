@@ -9,7 +9,7 @@
 
     <dimen name="activity_top_padding">24dp</dimen>
 
-    <dimen name="fragment_top_padding">160dp</dimen>
+    <dimen name="fragment_top_padding">180dp</dimen>
 
     <dimen name="subtitle_height">20dp</dimen>
 
@@ -23,7 +23,7 @@
     <dimen name="space_between_text_history_row">5dp</dimen>
 
 
-    <dimen name="initial_margin_top">55dp</dimen>
+    <dimen name="initial_margin_top">35dp</dimen>
 
     <dimen name="gestures_margin_start">130dp</dimen>
 

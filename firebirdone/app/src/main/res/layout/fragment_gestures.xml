@@ -15,7 +15,7 @@
         android:layout_height="@dimen/subtitle_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/title_noti" />
+        app:srcCompat="@drawable/title_tech" />
 
     <ListView
         android:id="@+id/gestures_listview"
@@ -35,9 +35,9 @@
     <ImageView
         android:id="@+id/txtSwipeToHistory"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/help_history_right" />
+        android:background="@drawable/help_back_left" />
 
 </RelativeLayout>

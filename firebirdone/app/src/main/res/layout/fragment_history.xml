@@ -35,8 +35,8 @@
     <ImageView
         android:id="@+id/txtSwipeToHistory"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/help_history_right"
+        android:layout_height="20dp"
+        android:background="@drawable/help_tech_right"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 
