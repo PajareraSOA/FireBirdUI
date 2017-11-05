@@ -1,5 +1,8 @@
 package com.loscache.firebirdone;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +24,8 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import static android.hardware.Sensor.TYPE_PROXIMITY;
+
 public class InfoActivity extends AppCompatActivity {
 
     /**
@@ -37,6 +42,8 @@ public class InfoActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private SensorManager sensorManager;
+    private GesturesListener gesturesListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,24 @@ public class InfoActivity extends AppCompatActivity {
 
        /* TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);*/
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        gesturesListener = new GesturesListener((sensorManager.getDefaultSensor(TYPE_PROXIMITY)).getMaximumRange());
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        sensorManager.unregisterListener(gesturesListener);
     }
 
 
