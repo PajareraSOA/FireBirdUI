@@ -1,4 +1,4 @@
-package com.loscache.firebirdone;
+package com.loscache.firebirdone.gui;
 
 /**
  * Created by cdsac on 22/10/2017.
@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.loscache.firebirdone.R;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class GesturesFragment extends Fragment {
 

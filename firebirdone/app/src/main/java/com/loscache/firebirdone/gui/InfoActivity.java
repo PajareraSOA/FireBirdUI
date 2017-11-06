@@ -1,28 +1,22 @@
-package com.loscache.firebirdone;
+package com.loscache.firebirdone.gui;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.TextView;
+import com.loscache.firebirdone.R;
+import com.loscache.firebirdone.data.DataReaderDbContext;
+import com.loscache.firebirdone.data.DataReaderDbHelper;
 
 import static android.hardware.Sensor.TYPE_PROXIMITY;
 
@@ -45,6 +39,9 @@ public class InfoActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private GesturesListener gesturesListener;
 
+    // Db Context
+    private DataReaderDbContext dbContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +62,6 @@ public class InfoActivity extends AppCompatActivity {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gesturesListener = new GesturesListener((sensorManager.getDefaultSensor(TYPE_PROXIMITY)).getMaximumRange());
 
-
     }
 
     @Override
@@ -74,12 +70,14 @@ public class InfoActivity extends AppCompatActivity {
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+        dbContext = new DataReaderDbContext(new DataReaderDbHelper(getApplicationContext()));
     }
 
     @Override
     public void onStop() {
         super.onStop();
         sensorManager.unregisterListener(gesturesListener);
+        dbContext.close();
     }
 
 
@@ -119,12 +117,16 @@ public class InfoActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // Return the current tab
             Fragment tab = null;
+            //Bundle dbContextBundle = new Bundle();
+            //dbContextBundle.putSerializable("dbcontext", dbContext);
+            //dbContextBundle.putString("dbcontext", "hola");
             switch (position){
                 case 0:
                     tab = new InfoFragment();
                     return tab;
                 case 1:
                     tab = new HistoryFragment();
+                    ((HistoryFragment) tab).dbContext = dbContext;
                     return tab;
                 case 2:
                     tab = new GesturesFragment();

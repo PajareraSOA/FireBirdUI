@@ -1,4 +1,4 @@
-package com.loscache.firebirdone;
+package com.loscache.firebirdone.gui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.loscache.firebirdone.R;
+import com.loscache.firebirdone.data.MeasurementModel;
 
 import java.util.ArrayList;
 
@@ -16,10 +19,10 @@ import java.util.ArrayList;
 public class HistoryRowAdapter  extends BaseAdapter {
 
     Context context;
-    ArrayList<HistoryRowObject> data;
+    ArrayList<MeasurementModel> data;
     private static LayoutInflater inflater = null;
 
-    public HistoryRowAdapter(Context context, ArrayList<HistoryRowObject> data) {
+    public HistoryRowAdapter(Context context, ArrayList<MeasurementModel> data) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.data = data;
@@ -51,8 +54,8 @@ public class HistoryRowAdapter  extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.history_row, null);
-        HistoryRowObject hrObject = data.get(position);
-        ((TextView) vi.findViewById(R.id.txt_time)).setText(hrObject.getTime());
+        MeasurementModel hrObject = data.get(position);
+        ((TextView) vi.findViewById(R.id.txt_time)).setText(hrObject.getDate());
         ((TextView) vi.findViewById(R.id.txt_temperature_value)).setText(hrObject.getTemperature());
         ((TextView) vi.findViewById(R.id.txt_smoke_value)).setText(hrObject.getSmoke());
         ((TextView) vi.findViewById(R.id.txt_flame_value)).setText(hrObject.getFlame());
@@ -61,7 +64,11 @@ public class HistoryRowAdapter  extends BaseAdapter {
         return vi;
     }
 
-    public void addItem(HistoryRowObject item){
-        data.add(item);
+    public void addItem(MeasurementModel item){
+        data.add(0, item);
+    }
+
+    public void removeLastItem(){
+        data.remove(data.size()-1);
     }
 }

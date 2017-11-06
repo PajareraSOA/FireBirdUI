@@ -1,4 +1,4 @@
-package com.loscache.firebirdone;
+package com.loscache.firebirdone.gui;
 
 /**
  * Created by ClaudioSaccella on 4/11/2017.

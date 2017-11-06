@@ -1,4 +1,4 @@
-package com.loscache.firebirdone;
+package com.loscache.firebirdone.gui;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

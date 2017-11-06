@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/fragment_top_padding"
-    tools:context="com.loscache.firebirdone.InfoActivity$PlaceholderFragment">
+    tools:context="com.loscache.firebirdone.gui.InfoActivity$PlaceholderFragment">
 
     <ImageView
         android:id="@+id/imageView"
