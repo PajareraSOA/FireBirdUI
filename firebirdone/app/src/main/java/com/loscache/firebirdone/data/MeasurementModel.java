@@ -18,14 +18,23 @@ public class MeasurementModel {
     private String flame;
     private String food;
     private String water;
+    private boolean isHistory;
 
-    public MeasurementModel(String date, String temperature, String smoke, String flame, String food, String water){
+    public MeasurementModel(
+            String date, 
+            String temperature, 
+            String smoke, 
+            String flame, 
+            String food, 
+            String water,
+            boolean isHistory){
         this.date = date;
         this.temperature = temperature;
         this.smoke = smoke;
         this.flame = flame;
         this.food = food;
         this.water = water;
+        this.isHistory = isHistory;
     }
 
     public String getDate() { return date; }
@@ -50,5 +59,7 @@ public class MeasurementModel {
         return water;
     }
 
+    public boolean isHistory() { return isHistory; }
 
+    public void setIsHistory(boolean value) { isHistory = value; }
 }

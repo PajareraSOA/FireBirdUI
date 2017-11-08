@@ -69,6 +69,10 @@ public class HistoryRowAdapter  extends BaseAdapter {
     }
 
     public void removeLastItem(){
-        data.remove(data.size()-1);
+        data.remove(data.size() - 1);
+    }
+
+    public void clear(){
+        data.clear();
     }
 }

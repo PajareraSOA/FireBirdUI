@@ -3,6 +3,7 @@ package com.loscache.firebirdone.gui;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.loscache.firebirdone.R;
+import com.loscache.firebirdone.background.HistorySaver;
+import com.loscache.firebirdone.background.MeasurementRequest;
 import com.loscache.firebirdone.data.DataReaderDbContext;
 import com.loscache.firebirdone.data.DataReaderDbHelper;
 
@@ -42,6 +45,15 @@ public class InfoActivity extends AppCompatActivity {
     // Db Context
     private DataReaderDbContext dbContext;
 
+    // Tabs
+    private Fragment infoTab;
+    private Fragment historyTab;
+    private Fragment gesturesTab;
+
+    // Async Task
+    private MeasurementRequest measurementRequest;
+    private HistorySaver historySaver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,17 +79,48 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        // on resume de los fragments
+        if(infoTab != null)
+            infoTab.onResume();
+        if(historyTab != null)
+            historyTab.onResume();
+
+        // escuchar los sensores
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+
+        // abrir la base de datos
         dbContext = new DataReaderDbContext(new DataReaderDbHelper(getApplicationContext()));
+
+        // poner a correr la async task
+        measurementRequest = new MeasurementRequest(dbContext);
+        measurementRequest.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+
+        historySaver = new HistorySaver(dbContext);
+        historySaver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
+        // fragments on stops
+        if(infoTab != null)
+            infoTab.onStop();
+        if(historyTab != null)
+            historyTab.onStop();
+
+        // dejar de escuchar los sensores
         sensorManager.unregisterListener(gesturesListener);
+
+        // cerrar la base de datos
         dbContext.close();
+
+        // Frenar la task
+        measurementRequest.cancel(true);
+        historySaver.cancel(true);
     }
 
 
@@ -115,25 +158,28 @@ public class InfoActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // Return the current tab
-            Fragment tab = null;
+
             //Bundle dbContextBundle = new Bundle();
             //dbContextBundle.putSerializable("dbcontext", dbContext);
             //dbContextBundle.putString("dbcontext", "hola");
             switch (position){
                 case 0:
-                    tab = new InfoFragment();
-                    return tab;
+                    Log.i("TABS", "cree 0");
+                    infoTab = new InfoFragment();
+                    ((InfoFragment) infoTab).dbContext = dbContext;
+                    return infoTab;
                 case 1:
-                    tab = new HistoryFragment();
-                    ((HistoryFragment) tab).dbContext = dbContext;
-                    return tab;
+                    Log.i("TABS", "cree 1");
+                    historyTab = new HistoryFragment();
+                    ((HistoryFragment) historyTab).dbContext = dbContext;
+                    return historyTab;
                 case 2:
-                    tab = new GesturesFragment();
-                    return tab;
+                    Log.i("TABS", "cree 2");
+                    gesturesTab = new GesturesFragment();
+                    return gesturesTab;
                 default:
-                    tab = new InfoFragment();
-                    return tab;
+                    infoTab = new InfoFragment();
+                    return infoTab;
             }
         }
 
