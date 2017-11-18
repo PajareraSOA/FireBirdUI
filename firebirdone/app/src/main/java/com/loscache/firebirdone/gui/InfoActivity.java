@@ -1,5 +1,7 @@
 package com.loscache.firebirdone.gui;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -14,12 +16,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.loscache.firebirdone.R;
+import com.loscache.firebirdone.background.GesturesListener;
 import com.loscache.firebirdone.background.HistorySaver;
 import com.loscache.firebirdone.background.MeasurementRequest;
 import com.loscache.firebirdone.data.DataReaderDbContext;
 import com.loscache.firebirdone.data.DataReaderDbHelper;
+
+import java.io.IOException;
+import java.util.UUID;
 
 import static android.hardware.Sensor.TYPE_PROXIMITY;
 
@@ -42,6 +49,11 @@ public class InfoActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private GesturesListener gesturesListener;
 
+    // Bluetooth
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private BluetoothDevice bluetoothDevice;
+    private BluetoothSocket bluetoothSocket;
+
     // Db Context
     private DataReaderDbContext dbContext;
 
@@ -59,6 +71,9 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+
+
+
 /*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
         // Create the adapter that will return a fragment for each of the three
@@ -69,10 +84,17 @@ public class InfoActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        // Conectarme con el bluetooth
+
+        bluetoothDevice = (BluetoothDevice) getIntent().getExtras().getParcelable("BluetoothDevice");
+
        /* TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);*/
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        gesturesListener = new GesturesListener((sensorManager.getDefaultSensor(TYPE_PROXIMITY)).getMaximumRange());
+       // gesturesListener = new GesturesListener((sensorManager.getDefaultSensor(TYPE_PROXIMITY)).getMaximumRange(), bluetoothSocket);
+
+
+
 
     }
 
@@ -86,7 +108,18 @@ public class InfoActivity extends AppCompatActivity {
         if(historyTab != null)
             historyTab.onResume();
 
+        // Conectarme al bluetooth
+        try {
+            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
+            bluetoothSocket.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No pude crear socket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // escuchar los sensores
+        gesturesListener = new GesturesListener((sensorManager.getDefaultSensor(TYPE_PROXIMITY)).getMaximumRange(), bluetoothSocket);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(gesturesListener, sensorManager.getDefaultSensor(TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
@@ -95,11 +128,14 @@ public class InfoActivity extends AppCompatActivity {
         dbContext = new DataReaderDbContext(new DataReaderDbHelper(getApplicationContext()));
 
         // poner a correr la async task
-        measurementRequest = new MeasurementRequest(dbContext);
+        measurementRequest = new MeasurementRequest(dbContext, bluetoothSocket);
         measurementRequest.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
 
         historySaver = new HistorySaver(dbContext);
         historySaver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+
+
+
     }
 
     @Override
@@ -111,6 +147,14 @@ public class InfoActivity extends AppCompatActivity {
             infoTab.onStop();
         if(historyTab != null)
             historyTab.onStop();
+
+        // Desconectar Bluetooth
+        try {
+            bluetoothSocket.close();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "No pude cerrar socket", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // dejar de escuchar los sensores
         sensorManager.unregisterListener(gesturesListener);

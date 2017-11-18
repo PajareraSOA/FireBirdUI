@@ -1,5 +1,6 @@
 package com.loscache.firebirdone.background;
 
+import android.bluetooth.BluetoothSocket;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;

@@ -27,6 +27,6 @@
 
     <dimen name="gestures_margin_start">130dp</dimen>
 
-    <dimen name="padding_top_main">130dp</dimen>
+    <dimen name="padding_top_main">24dp</dimen>
 
 </resources>

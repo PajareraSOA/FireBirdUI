@@ -9,4 +9,7 @@
     <string name="history_flame"> Fuego: </string>
     <string name="history_food"> Comida: </string>
     <string name="history_water"> Agua: </string>
+
+    <string name="devices_bt_name"> Nombre: </string>
+    <string name="devices_bt_address"> Dirección: </string>
 </resources>

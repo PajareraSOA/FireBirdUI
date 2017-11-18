@@ -1,5 +1,6 @@
-package com.loscache.firebirdone.gui;
+package com.loscache.firebirdone.background;
 
+import android.bluetooth.BluetoothSocket;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,11 +9,16 @@ import android.widget.Toast;
 
 import com.loscache.firebirdone.data.DataReaderDbContext;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Created by cdsac on 05/11/2017.
  */
 
 public class GesturesListener implements SensorEventListener {
+
+
 
     // Accelerometer
     private long lastRefresh = 0, lastMovement = 0;
@@ -24,8 +30,16 @@ public class GesturesListener implements SensorEventListener {
     // Proximity
     private float maxRange;
 
-    public GesturesListener(float proximityMaxRange){
+    // Bluetooth
+    private BluetoothSocket bluetoothSocket;
+    OutputStream outputStream;
+    private static int ACTION_LIGHT = 11;
+    private static int ACTION_SOUND = 22;
+    private static int ACTION_WATER= 33;
+
+    public GesturesListener(float proximityMaxRange, BluetoothSocket bluetoothSocket){
         maxRange = proximityMaxRange;
+        this.bluetoothSocket = bluetoothSocket;
     }
 
     @Override
@@ -33,6 +47,14 @@ public class GesturesListener implements SensorEventListener {
         synchronized (this) {
 
             float [] values =  event.values;
+
+
+            // Bluetooth
+            try {
+                outputStream =  bluetoothSocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             switch(event.sensor.getType()) {
 
@@ -68,6 +90,7 @@ public class GesturesListener implements SensorEventListener {
 
                                     // TO DO MOVEMENT
                                     Log.i("SENSOR", "ACCELEROMETER");
+                                    sendToDevice(ACTION_LIGHT);
 
                                 }
                             }
@@ -94,6 +117,7 @@ public class GesturesListener implements SensorEventListener {
                     if(antiClockWise && clockWise) {
                         // TO DO WHIP
                         Log.i("SENSOR", "GIROSCOPE");
+                        sendToDevice(ACTION_WATER);
                         antiClockWise = false;
                         clockWise = false;
                     }
@@ -102,6 +126,7 @@ public class GesturesListener implements SensorEventListener {
                 case Sensor.TYPE_PROXIMITY:
                    if(event.values[0] < maxRange) {
                        Log.i("SENSOR", "PROXIMITY_NEAR");
+                       sendToDevice(ACTION_SOUND);
                         // TO DO NEAR
                     } else {
                        Log.i("SENSOR", "PROXIMITY_AWAY");
@@ -115,5 +140,15 @@ public class GesturesListener implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    private void sendToDevice(int action){
+        if(outputStream != null){
+            try {
+                outputStream.write(action);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
