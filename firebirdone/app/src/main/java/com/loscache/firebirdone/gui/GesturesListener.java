@@ -6,6 +6,8 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loscache.firebirdone.data.DataReaderDbContext;
+
 /**
  * Created by cdsac on 05/11/2017.
  */
@@ -13,14 +15,14 @@ import android.widget.Toast;
 public class GesturesListener implements SensorEventListener {
 
     // Accelerometer
-    long lastRefresh = 0, lastMovement = 0;
-    float x = 0, y = 0, z = 0, lastX = 0, lastY = 0, lastZ = 0;
+    private long lastRefresh = 0, lastMovement = 0;
+    private float x = 0, y = 0, z = 0, lastX = 0, lastY = 0, lastZ = 0;
 
     // Giroscope
-    boolean antiClockWise = false, clockWise = false;
+    private boolean antiClockWise = false, clockWise = false;
 
     // Proximity
-    float maxRange;
+    private float maxRange;
 
     public GesturesListener(float proximityMaxRange){
         maxRange = proximityMaxRange;

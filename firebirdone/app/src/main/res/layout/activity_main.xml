@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="com.loscache.firebirdone.gui.MainActivity"
+android:background="@drawable/background">
+
+<ImageView
+    android:id="@+id/main_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/title"
+    android:paddingTop="@dimen/padding_top_main"
+    android:paddingBottom="@dimen/activity_top_padding"
+    />
+
+    <Button
+        android:id="@+id/btn_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/molde"
+        android:text="Conectarse"
+        android:textColor="@color/colorWhite"
+        app:layout_anchor="@+id/main_background"
+        app:layout_anchorGravity="bottom|center_horizontal"
+
+        />
+
+</android.support.design.widget.CoordinatorLayout>
